@@ -148,6 +148,11 @@ const Sync = async ({ ipfs, log, events, onSynced, start, timeout }) => {
 
   const sendHeads = async (source) => {
     return (async function * () {
+      const values = await log.values()
+      for await (const { bytes } of values) {
+        yield bytes
+      }
+
       const heads = await log.heads()
       for await (const { bytes } of heads) {
         yield bytes
